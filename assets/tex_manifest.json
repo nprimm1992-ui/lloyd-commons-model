@@ -1,0 +1,229 @@
+{
+ "credit": "Textures and sky: Poly Haven (polyhaven.com), CC0",
+ "sets": {
+  "brickRed": {
+   "id": "red_brick",
+   "tile": 2.2,
+   "avg": [
+    142,
+    103,
+    80
+   ],
+   "maps": [
+    "d",
+    "n",
+    "r"
+   ]
+  },
+  "brickDark": {
+   "id": "red_brick_03",
+   "tile": 2.2,
+   "avg": [
+    106,
+    84,
+    75
+   ],
+   "maps": [
+    "d",
+    "n",
+    "r"
+   ]
+  },
+  "brickOrange": {
+   "id": "large_red_bricks",
+   "tile": 2.6,
+   "avg": [
+    169,
+    116,
+    82
+   ],
+   "maps": [
+    "d",
+    "n",
+    "r"
+   ]
+  },
+  "concrete": {
+   "id": "concrete_wall_008",
+   "tile": 3.5,
+   "avg": [
+    141,
+    134,
+    112
+   ],
+   "maps": [
+    "d",
+    "n",
+    "r"
+   ]
+  },
+  "plaster": {
+   "id": "beige_wall_001",
+   "tile": 3.0,
+   "avg": [
+    158,
+    140,
+    120
+   ],
+   "maps": [
+    "d",
+    "n",
+    "r"
+   ]
+  },
+  "cedar": {
+   "id": "japanese_cedar_planks",
+   "tile": 2.4,
+   "avg": [
+    172,
+    97,
+    11
+   ],
+   "maps": [
+    "d",
+    "n",
+    "r"
+   ]
+  },
+  "ribbed": {
+   "id": "corrugated_iron_02",
+   "tile": 2.0,
+   "avg": [
+    89,
+    88,
+    81
+   ],
+   "maps": [
+    "d",
+    "n",
+    "r"
+   ]
+  },
+  "boxprofile": {
+   "id": "box_profile_metal_sheet",
+   "tile": 2.0,
+   "avg": [
+    106,
+    38,
+    23
+   ],
+   "maps": [
+    "d",
+    "n",
+    "r"
+   ]
+  },
+  "tiles": {
+   "id": "large_grey_tiles",
+   "tile": 4.0,
+   "avg": [
+    132,
+    126,
+    115
+   ],
+   "maps": [
+    "d",
+    "n",
+    "r"
+   ]
+  },
+  "pavement": {
+   "id": "concrete_pavement_02",
+   "tile": 4.0,
+   "avg": [
+    134,
+    123,
+    111
+   ],
+   "maps": [
+    "d",
+    "n",
+    "r"
+   ]
+  },
+  "brickpave": {
+   "id": "red_brick_pavers",
+   "tile": 1.6,
+   "avg": [
+    116,
+    64,
+    50
+   ],
+   "maps": [
+    "d",
+    "n",
+    "r"
+   ]
+  },
+  "asphalt": {
+   "id": "asphalt_02",
+   "tile": 5.0,
+   "avg": [
+    90,
+    90,
+    85
+   ],
+   "maps": [
+    "d",
+    "n",
+    "r"
+   ]
+  },
+  "leafy": {
+   "id": "leafy_grass",
+   "tile": 5.0,
+   "avg": [
+    151,
+    131,
+    89
+   ],
+   "maps": [
+    "d",
+    "n",
+    "r"
+   ]
+  },
+  "sedum": {
+   "id": "aerial_grass_rock",
+   "tile": 6.0,
+   "avg": [
+    114,
+    97,
+    36
+   ],
+   "maps": [
+    "d",
+    "n",
+    "r"
+   ]
+  },
+  "gravel": {
+   "id": "gravel_concrete_02",
+   "tile": 3.0,
+   "avg": [
+    138,
+    123,
+    103
+   ],
+   "maps": [
+    "d",
+    "n",
+    "r"
+   ]
+  },
+  "grass": {
+   "id": "grass_ground",
+   "tile": 5.0,
+   "avg": [
+    110,
+    96,
+    62
+   ],
+   "maps": [
+    "d",
+    "n",
+    "r"
+   ]
+  }
+ }
+}

@@ -1006,31 +1006,29 @@ def _nstack(name,tiers,prog=(0.82,0.08,0.10)):
         rec['north_ref']=True; recs.append(rec); polys_.append(p); z=rec['h']; below=p
     NORTH_PARCELS.append({'name':name,'floors':sum(t[1] for t in tiers),'top_m':round(z,1),'ground_m2':round(Polygon(recs[0]['fp']).area)})
     return recs
-Y0,Y1=707.5,771.5
-# P1  west corner (9th / Halsey): brick podium, bronze-finned dark-glass tower stepping to a PV crown, Halsey brick wing
-_nstack('Halsey Bronze Tower',[(box(645,Y0,704,Y1),4,'refBrick','meadow','podium','podium'),
-    (box(649,711.5,687,745.5),12,'refBronze','meadow','tower','shaft'),
-    (box(649,717,681,745.5),2,'refBronze','pv','step','crown')])
-_nstack('Halsey Bronze Tower Halsey wing',[(box(648,751,701,769),1,'refBrick','meadow','bar','base')],prog=(0.85,0.0,0.15)) if False else None
-for r in B:
-    if r['name']=='Halsey Bronze Tower':
-        _w=add('Halsey Bronze Tower Halsey wing','step',box(649,752,700,768),4,z0=r['h'],mat='refBrick',roof='meadow',prog=(0.85,0.0,0.15),base=False); _w['north_ref']=True; break
-# P2  10th Ave brick slab between the Commons lane and the keep strip
-_nstack('Tenth Avenue Brick Slab',[(box(720.5,Y0,733.5,Y1),7,'refBrick','meadow','bar','base'),
-    (box(720.5,713,733.5,765),2,'refBrick','pv','step','crown')])
-# P3  precast tower + garden bar + Halsey brick courts (open green court between)
-_nstack('Halsey Precast Tower',[(box(750.5,Y0,782,744),4,'refPrecast','meadow','podium','podium'),
-    (box(752.5,709.5,780,742),9,'refPrecast','meadow','tower','shaft'),
-    (box(754.5,711.5,778,740),1,'refPrecast','pv','step','crown')])
-_nstack('Commons Garden Bar',[(box(788,Y0,842,726),5,'refSand','meadow','bar','base'),
-    (box(800,Y0+1.5,842,726),2,'refSand','meadow','step','terrace')],prog=(0.7,0.2,0.1))
+YC,Y1=684.0,771.5   # user: Commons-facing blocks pulled in to the shared Commons route (3.5 m sidewalk kept); Halsey-facing blocks stay on Halsey
+# P1  west corner (9th / Halsey): brick podium on the Commons, bronze-finned dark-glass tower stepping to a PV crown; separate Halsey brick wing
+_nstack('Halsey Bronze Tower',[(box(645,YC,704,744),4,'refBrick','meadow','podium','podium'),
+    (box(649,688,687,722),12,'refBronze','meadow','tower','shaft'),
+    (box(649,693.5,681,722),2,'refBronze','pv','step','crown')])
+_nstack('Halsey Bronze Tower Halsey wing',[(box(648,750,701,Y1),6,'refBrick','meadow','bar','base')],prog=(0.85,0.0,0.15))
+# P2  10th Ave brick slab between the Commons lane and the keep strip, small brick bar holding the Halsey corner
+_nstack('Tenth Avenue Brick Slab',[(box(720.5,YC,733.5,748),7,'refBrick','meadow','bar','base'),
+    (box(720.5,689.5,733.5,741.5),2,'refBrick','pv','step','crown')])
+_nstack('Tenth Avenue Halsey Bar',[(box(720.5,753,733.5,Y1),5,'refBrick','meadow','bar','base')])
+# P3  precast tower + garden bar on the Commons, Halsey brick courts on Halsey (open green court between)
+_nstack('Halsey Precast Tower',[(box(750.5,YC,782,720.5),4,'refPrecast','meadow','podium','podium'),
+    (box(752.5,686,780,718.5),9,'refPrecast','meadow','tower','shaft'),
+    (box(754.5,688,778,716.5),1,'refPrecast','pv','step','crown')])
+_nstack('Commons Garden Bar',[(box(788,YC,842,702.5),5,'refSand','meadow','bar','base'),
+    (box(800,685.5,842,702.5),2,'refSand','meadow','step','terrace')],prog=(0.7,0.2,0.1))
 _nstack('Halsey Brick Courts',[(box(750.5,744,842,Y1),6,'brickBrown','meadow','bar','base'),
     (box(808,746.5,840,769.5),4,'brickBrown','pv','step','tower',0)])
-# P4  hall-side brick tower + low precast bar + Halsey dark-glass bar with green-topped tower
-_nstack('Commons Brick Tower',[(box(896,Y0,941,740),4,'refBrick','meadow','podium','podium'),
-    (box(898,709.5,939,738),11,'brickBrown','meadow','tower','shaft'),
-    (box(902,712,935,736),1,'brickBrown','pv','step','crown')])
-_nstack('Commons Low Bar',[(box(848,Y0,890,724),4,'refPrecast','meadow','bar','base')],prog=(0.5,0.3,0.2))
+# P4  hall-side brick tower + low precast bar on the Commons, Halsey dark-glass bar with green-topped tower
+_nstack('Commons Brick Tower',[(box(896,YC,941,716.5),4,'refBrick','meadow','podium','podium'),
+    (box(898,686,939,714.5),11,'brickBrown','meadow','tower','shaft'),
+    (box(902,688.5,935,712.5),1,'brickBrown','pv','step','crown')])
+_nstack('Commons Low Bar',[(box(848,YC,890,700.5),4,'refPrecast','meadow','bar','base')],prog=(0.5,0.3,0.2))
 _nstack('Halsey Glass Bar',[(box(848,748,941,Y1),6,'darkglass','meadow','bar','base'),
     (box(850,750,890,769.5),6,'darkglass','meadow','step','tower')])
 # P5  northeast: stepped terrace block, bronze tower on brick podium, Halsey east courts
@@ -1052,7 +1050,7 @@ for p in _ng:
     for k in (box(707.9,676,716.9,781),box(737.5,676,746.5,781),box(945.5,676,954.5,781)): assert p.intersection(k).area<0.05,'north parcel blocks a lane'
 assert max(r['fl'] if r['z0']==0 else 0 for r in B if r.get('north_ref'))<=18
 # open green courts and paseos for the new parcels; stale north courts / ND details dropped
-NORTH_COURTS=[C(orient(b_,1.0)) for b_ in (box(792,730,838,741),box(853,728,891,744),box(968,720,1062,738),box(706,712,707.5,712.5))[:3]]
+NORTH_COURTS=[C(orient(b_,1.0)) for b_ in (box(752.5,723,780,741.5),box(790,705,840,741.5),box(850,703,888,745.5),box(898,719,939,745.5),box(968,720,1062,738))]
 for _k in ND:
     ND[_k]=[q for q in ND[_k] if not (q and isinstance(q[0],(list,tuple)) and _NZ.contains(Point(q[0][0],q[0][1])))
              and not (q and isinstance(q[0],(int,float)) and _NZ.contains(Point(q[0],q[1])))]
@@ -1145,7 +1143,7 @@ BLD_U = unary_union([p for _, p in foot] + [CORE_BUILT, VEN_FP])
 
 # ------------------------------------------------------------------ open spaces
 _se_y=lambda y:556+(y-556)*(E_S-556)/(OLD_ES-556)
-courtyards = [C(orient(box(806, 685, 842, 708), 1.0)), C(orient(box(998-PLAZA_FRAME_SHIFT, _se_y(571), 1048-PLAZA_FRAME_SHIFT, _se_y(586)), 1.0))]
+courtyards = [C(orient(box(998-PLAZA_FRAME_SHIFT, _se_y(571), 1048-PLAZA_FRAME_SHIFT, _se_y(586)), 1.0))]
 courtyards += NORTH_COURTS
 courtyards=[C(orient(p,1.0)) for c_ in courtyards for p in polys(Polygon(c_).difference(BLD_U.buffer(0.5,join_style=2))) if p.area>40]
 curve_park = big(SITE.intersection(box(1088, 560, 1180, 780)).difference(BLD_U.buffer(4)))
@@ -1153,7 +1151,7 @@ PASEOS = [(792, 798, 556, 589), (RX - PHX, RX - 22, 556, PS), (992, 998, 556, E_
           (786, 792, 733, 770), (880, 886, 733, 770)]
 PASEOS=[(a,b,c,min(d,PS if a<RX-PHX else E_S)) if c==556 else (a,b,c,d) for a,b,c,d in PASEOS]
 PASEOS=[(a-PLAZA_FRAME_SHIFT,b-PLAZA_FRAME_SHIFT,c,d) if c==556 else (a,b,c,d) for a,b,c,d in PASEOS]
-PASEOS=[q for q in PASEOS if not (q[2]>700 and q[0]<1000)]+[(782,788,707.5,744),(842,848,707.5,771.5),(890,896,707.5,748),(1030,1036,684,716),(737.5,746.5,684,771.5)]
+PASEOS=[q for q in PASEOS if not (q[2]>700 and q[0]<1000)]+[(782,788,684,744),(842,848,684,771.5),(890,896,684,748),(1030,1036,684,716),(737.5,746.5,684,771.5)]
 paseos = [C(orient(box(a, c, b, d), 1.0)) for a, b, c, d in PASEOS]
 paseos=[C(orient(p,1.0)) for c_ in paseos for p in polys(Polygon(c_).difference(BLD_U.buffer(0.3,join_style=2))) if p.area>20]
 esplanades = [C(orient(box(RX + PHX, AXE + LE + BD, 1060, 704), 1.0))]   # pyramid court forecourt north of E band

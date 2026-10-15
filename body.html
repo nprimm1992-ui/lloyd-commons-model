@@ -1,20 +1,107 @@
-<div id="view"></div>
-<div id="hud"><h1>LLOYD COMMONS</h1><div class="sub">Superblock concept &mdash; Lloyd Center block, Portland OR<br>Glass galleria &middot; venue west &middot; tower cluster east &middot; roof commons park centre<br>Geodata: OpenStreetMap &middot; local ENU metres, north up<br><b>Parcel coherence: northern seams closed &middot; courtyards open &middot; rotated parcel sole north connection</b></div>
-<div class="lbl">VIEWS</div>
-<div class="row"><button data-view="hero">Hero SW</button><button data-view="aerial">Aerial</button><button data-view="referencewest">Reference west</button><button data-view="referencenorth">Reference north</button><button data-view="autumn">Autumn aerial</button><button data-view="masterplan">Development map</button></div>
-<div class="row"><button id="presentationBtn" type="button">Presentation mode</button></div>
-<div class="row"><button data-view="obl">Ref oblique</button><button data-view="refaerial">Reference aerial</button><button data-view="axis">Vault axis</button><button data-view="east">East</button><button data-view="north">North perimeter</button><button data-view="roadsnorth">North roads</button><button data-view="roadssouth">Park roads</button><button data-view="park">From park</button></div>
-<div class="row"><button data-view="plaza">Plaza</button><button data-view="fountainbuildings">Fountain buildings</button><button data-view="entrance">Park entrance</button><button data-view="galleria">Galleria</button><button data-view="atrium">Atrium</button><button data-view="rink">Rink</button><button data-view="foodcourt">Food court</button><button data-view="hall">Hall</button><button data-view="roofdetail">Roof close-up</button><button data-view="roofreverse">Roof reverse</button><button data-view="roofwalk">Roof walk</button><button data-view="roofpark">Roof park</button><button data-view="plan">Plan</button><button data-view="max">MAX stn</button><button data-view="holladay">Holladay Pk</button><button data-view="wide">Wide</button></div>
-<div class="lbl">LAYERS</div><div class="chk">
-<label><input type="checkbox" id="chkvault" checked> Vault glass</label>
-<label><input type="checkbox" id="chkroof" checked> Roof park</label>
-<label><input type="checkbox" id="chkpeople" checked> People</label>
-<label><input type="checkbox" id="chkstreets" checked> Streets</label>
-<label><input type="checkbox" id="chkrails" checked> MAX</label>
-<label><input type="checkbox" id="chkctx" checked> Context</label>
-<label><input type="checkbox" id="chklabels" checked> Labels</label></div>
-<div class="lbl">PROGRAM</div><div id="stats"></div></div>
-<div id="legend"><b style="font-size:10.5px;letter-spacing:0.1em">MATERIALS</b><br>
-<span class="sw" style="background:#a0503a"></span>Brick residential blocks<br><span class="sw" style="background:#d6c4a6"></span>Buff galleria liners<br><span class="sw" style="background:#46607a"></span>Curtain-wall towers / office<br><span class="sw" style="background:#cfe6ee"></span>Glass vault + pavilion<br><span class="sw" style="background:#7f9a50"></span>Roof commons / green roofs<br><span class="sw" style="background:#c4966a"></span>Timber (venue, Market Hall)</div>
-<div id="compass"><div id="north">&#8593; N</div>true north<br><span id="scaleNote"></span></div>
-<div id="info"></div>
+<div id="view" data-testid="model-canvas-container">
+  <img id="cmp-img" alt="Reference rendering" data-testid="compare-image"><div id="cmp-line"></div>
+</div>
+<div id="err" data-testid="app-error"></div>
+
+<header id="brand" data-testid="brand-bar">
+  <a class="back" href="https://lloydcommons.org/" data-testid="back-to-site-link">&larr; lloydcommons.org</a>
+  <div class="mark"><span class="mk-a">Lloyd Commons</span><span class="mk-b">Interactive 3D model · NE Portland</span></div>
+</header>
+<div id="topright">
+  <div id="loadchip" data-testid="material-loading-indicator"><span id="load-n">Materials</span><i><b id="load-bar"></b></i></div>
+  <div id="q-wrap" data-testid="quality-badge"><button id="q-btn" data-testid="quality-badge-btn">Quality · <b id="q-cur">High</b></button><div id="q-menu" data-testid="quality-menu"></div></div>
+</div>
+
+<section id="hero" data-testid="hero">
+  <div class="hero-in">
+    <div class="kick">A civic proposal for the Lloyd Center site</div>
+    <h1>Lloyd<br><em>Commons</em></h1>
+    <p>Four civic layers, stacked and connected: the street, an indoor promenade that never closes, a roof commons park, and the towers around it. Explore the megablock as the renderings show it.</p>
+    <div class="hero-cta">
+      <button id="hero-tour" class="btn primary" data-testid="hero-start-tour-btn">Start the tour</button>
+      <button id="hero-explore" class="btn ghost" data-testid="hero-explore-btn">Explore freely</button>
+    </div>
+    <div class="hero-meta" id="hero-meta" data-testid="hero-meta"></div>
+  </div>
+</section>
+
+<div id="chrome">
+  <article id="tour-card" data-testid="tour-card">
+    <div class="tc-top"><span id="tour-k" data-testid="tour-chapter-label"></span><button id="tour-close" class="x" data-testid="tour-close-btn" aria-label="Close tour">×</button></div>
+    <h2 id="tour-t" data-testid="tour-title"></h2>
+    <p id="tour-d" data-testid="tour-text"></p>
+    <div class="tc-nav"><button id="tour-prev" class="btn ghost sm" data-testid="tour-prev-btn">Previous</button><div id="tour-dots"></div><button id="tour-next" class="btn primary sm" data-testid="tour-next-btn">Next</button></div>
+  </article>
+
+  <aside id="panel-sun" class="panel" data-testid="sun-panel">
+    <div class="ph">Sun &amp; shadow <small>Portland, OR · 45.53° N</small></div>
+    <div class="rd" id="sunReadout" data-testid="sun-readout"></div>
+    <label class="sl">Time of day<input type="range" id="sunHour" min="20" max="84" step="1" data-testid="sun-time-slider"></label>
+    <label class="sl">Day of year<input type="range" id="sunDay" min="1" max="365" step="1" data-testid="sun-day-slider"></label>
+    <div class="chips"><button data-season="80" data-testid="sun-spring-btn">Equinox</button><button data-season="172" data-testid="sun-summer-btn">Summer</button><button data-season="355" data-testid="sun-winter-btn">Winter</button><button id="sun-ref" data-testid="sun-reference-btn">Rendering light</button></div>
+  </aside>
+  <aside id="panel-data" class="panel" data-testid="metrics-panel">
+    <div class="ph">The proposal in numbers <small>from the generated layout</small></div>
+    <div id="metrics"></div>
+  </aside>
+  <aside id="panel-layers" class="panel" data-testid="layers-panel">
+    <div class="ph">Layers</div>
+    <div id="layers"></div>
+    <label class="tog"><input type="checkbox" id="tiltTog" data-testid="tilt-shift-toggle"><span></span>Tilt-shift depth of field</label>
+  </aside>
+
+  <aside id="info" data-testid="building-info-card"></aside>
+
+  <div id="walk-ui" data-testid="walk-controls">
+    <span class="wl">Walking the Commons spine · 9th Ave → east</span>
+    <input type="range" id="walkSlider" min="0" max="1000" value="0" data-testid="walk-slider">
+    <button id="walkPlay" class="btn ghost sm" data-testid="walk-play-btn">Pause</button>
+    <button id="walk-exit" class="btn ghost sm" data-testid="walk-exit-btn">Exit</button>
+  </div>
+
+  <div id="compare-ui" data-testid="compare-controls">
+    <div class="cu-row"><div id="cmp-tabs"></div><button id="cmp-close" class="x" data-testid="compare-close-btn" aria-label="Close compare">×</button></div>
+    <div class="cu-row"><span id="cmp-title" data-testid="compare-title"></span><input type="range" id="cmp-mix" min="0" max="100" value="50" data-testid="compare-mix-slider"><span id="cmp-mix-l" data-testid="compare-mix-label"></span><button id="cmp-mode" data-m="fade" class="btn ghost sm" data-testid="compare-mode-btn">Swipe mode</button></div>
+    <div id="cmp-note"></div>
+  </div>
+
+  <nav id="toolbar" data-testid="toolbar">
+    <button id="tb-tour" data-testid="toolbar-tour-btn">Tour</button>
+    <button id="tb-explore" data-testid="toolbar-explore-btn">Explore</button>
+    <button id="tb-walk" data-testid="toolbar-walk-btn">Walk</button>
+    <button id="tb-compare" data-testid="toolbar-compare-btn">Compare</button>
+    <i class="sep"></i>
+    <button id="tb-sun" data-testid="toolbar-sun-btn">Sun</button>
+    <button id="tb-data" data-testid="toolbar-metrics-btn">Numbers</button>
+    <button id="tb-layers" data-testid="toolbar-layers-btn">Layers</button>
+    <i class="sep"></i>
+    <button id="tb-photo" class="shutter" data-testid="toolbar-photo-btn"><i></i>Photo</button>
+    <button id="tb-share" data-testid="toolbar-share-btn">Share</button>
+    <button id="tb-capture" data-testid="toolbar-capture-btn">Capture</button>
+  </nav>
+</div>
+<section id="photo" data-testid="photo-mode-overlay">
+  <div class="ph-card">
+    <div class="ph-setup">
+      <div class="ph-k">Photo mode</div>
+      <h3>Develop a near-photographic still of this view</h3>
+      <p>The view is frozen and refined over many passes: soft sun penumbrae, ambient occlusion, city reflections in the glass and supersampled edges. It takes seconds on a strong PC and up to a minute on an office PC.</p>
+      <div class="ph-spec" id="ph-spec"></div>
+      <label class="tog"><input type="checkbox" id="ph-tilt" data-testid="photo-tilt-toggle"><span></span>Tilt-shift depth of field (aerial stills)</label>
+      <div class="ph-row"><button class="btn ghost sm" id="ph-close" data-testid="photo-close-btn">Not now</button><button class="btn primary sm" id="ph-go" data-testid="photo-start-btn">Develop still</button></div>
+    </div>
+    <div class="ph-run">
+      <svg viewBox="0 0 120 120" class="ring"><circle cx="60" cy="60" r="52" class="rb"></circle><circle cx="60" cy="60" r="52" class="rf" id="ph-ring"></circle></svg>
+      <div class="ph-pct" id="ph-pct" data-testid="photo-progress">0%</div>
+      <div class="ph-msg" id="ph-msg"></div>
+      <button class="btn ghost sm" id="ph-cancel" data-testid="photo-cancel-btn">Cancel</button>
+    </div>
+    <div class="ph-done">
+      <img id="ph-img" alt="Developed still" data-testid="photo-result-image">
+      <div class="ph-meta" id="ph-meta" data-testid="photo-result-meta"></div>
+      <div class="ph-row"><button class="btn ghost sm" id="ph-close2" data-testid="photo-done-close-btn">Close</button><a class="btn primary sm" id="ph-dl" data-testid="photo-download-link">Download still</a></div>
+    </div>
+  </div>
+</section>
+<footer id="credits" data-testid="credits">Conceptual model, not architectural drawings · Geodata © OpenStreetMap contributors · Materials &amp; sky: Poly Haven (CC0) · Three.js</footer>
+<div id="toast" data-testid="toast"></div>

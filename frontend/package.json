@@ -1,0 +1,9 @@
+{
+  "name": "lloyd-commons-model-preview",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "start": "node serve.js",
+    "build": "cd .. && python3 build_viewer.py"
+  }
+}
