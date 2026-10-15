@@ -138,18 +138,18 @@ function buildCommons(THREE, LY, SC, env) {
     podium: std({ map: tex(512, 512, podiumTex), roughness: 0.45, emissive: 0x3a2610, emissiveIntensity: 0.3, envMapIntensity: 0.6 }),
     coping: std({ color: 0xd9d4ca, roughness: 0.8 }), roofGray: std({ color: 0x6e6f70, roughness: 0.95 }), parapet: std({ color: 0x3a3c3e, roughness: 0.7, metalness: 0.2 }),
     meadow: std({ map: tex(256, 256, meadow), roughness: 0.97 }), lawn: std({ map: tex(256, 256, lawn), roughness: 0.97 }),
-    paver: std({ map: tex(256, 256, paver), roughness: 0.92 }), stone: std({ map: tex(256, 256, stone), roughness: 0.35, envMapIntensity: 0.6 }),
+    paver: std({ map: tex(256, 256, paver), roughness: 0.92 }), stone: std({ map: tex(256, 256, stone), roughness: 0.4, envMapIntensity: 0.5, emissive: 0x2a1a08, emissiveIntensity: 0.12 }),
     asphalt: std({ color:0x55585b, roughness: 0.95 }), walk: std({ map: tex(128, 128, concrete), roughness: 0.95 }),
     pv: std({ map: tex(128, 64, pvTex), roughness: 0.25, metalness: 0.6, envMapIntensity: 1.1 }),
     plaza: std({ map: tex(1024, 1024, plazaTex), roughness: 0.9 }),
-    glass: std({ color: 0x95a9b3, opacity: 1, transparent: true, alphaMap: tex(256, 256, mullion(1, 3, '#7a7a7a'), 0, 0, false), roughness: 0.04, metalness: 0.62, envMapIntensity: 1.6, side: THREE.DoubleSide, depthWrite: false }),
+    glass: std({ color: 0x9aa598, opacity: 1, transparent: true, alphaMap: tex(256, 256, mullion(2, 4, '#6a6a6a'), 0, 0, false), roughness: 0.04, metalness: 0.62, envMapIntensity: 1.6, side: THREE.DoubleSide, depthWrite: false }),
     glassRail: std({ color: 0xd4ecf2, transparent: true, opacity: 0.35, roughness: 0.05, metalness: 0.4, side: THREE.DoubleSide, depthWrite: false }),
     glassBox: std({ color: 0x9ec0cc, roughness: 0.1, metalness: 0.65, envMapIntensity: 1.4, emissive: 0x6a4a22, emissiveIntensity: 0.45 }),
-    white: std({ color: 0xf4f2ec, roughness: 0.55 }), wood: std({ color: 0xb98a58, roughness: 0.65 }), glulam: std({ color: 0xcf9e64, roughness: 0.6 }),
+    white: std({ color: 0xf4f2ec, roughness: 0.55 }), wood: std({ color: 0xb98a58, roughness: 0.65 }), glulam: std({ color: 0xd4a46a, roughness: 0.55, envMapIntensity: 0.3 }),
     dark: std({ color: 0x33373c, roughness: 0.7 }), metal: std({ color: 0x8b9095, roughness: 0.4, metalness: 0.7 }),
     ice: std({ color: 0xeef6fa, roughness: 0.12, metalness: 0.05, envMapIntensity: 1.2 }), water: std({ color: 0x3f8fb4, roughness: 0.04, metalness: 0.4, envMapIntensity: 1.6, transparent: true, opacity: 0.92 }),
     jet: std({ color: 0xffffff, transparent: true, opacity: 0.85, emissive: 0xbfe6ff, emissiveIntensity: 0.4, depthWrite: false }),
-    glow: std({ color: 0xffe2a8, emissive: 0xffb552, emissiveIntensity: 1.6 }), soil: std({ color: 0x5a4632, roughness: 1 }),
+    glow: std({ color: 0xffe8b8, emissive: 0xffc060, emissiveIntensity: 2.0 }), soil: std({ color: 0x5a4632, roughness: 1 }),
     ctx: std({ color: 0x8c857b, roughness: 0.95 }), ground: std({ color: 0x86826f, roughness: 1 }), site: std({ color: 0xcfc9bb, roughness: 1 }),
     tint: std({ color: 0xffffff, roughness: 0.92 }), cloth: std({ color: 0xffffff, roughness: 0.85 }),
     rail: std({ color: 0x6a645c, roughness: 0.9 }), track: std({ color: 0x9a9da0, roughness: 0.3, metalness: 0.8 }),
@@ -162,13 +162,13 @@ function buildCommons(THREE, LY, SC, env) {
   M.venueBase = std({ map: tex(512, 256, (t, w, h) => { t.fillStyle = '#2d3135'; t.fillRect(0, 0, w, h); for (let i = 0; i < 6; i++) { const g = t.createLinearGradient(0, h * 0.25, 0, h); g.addColorStop(0, '#f7d9a4'); g.addColorStop(1, '#a8743e'); t.fillStyle = g; t.fillRect(i * w / 6 + 8, h * 0.28, w / 6 - 16, h * 0.68); t.fillStyle = '#22262a'; t.fillRect(i * w / 6 + w / 12 - 2, h * 0.28, 4, h * 0.68); } t.fillStyle = '#3b4046'; t.fillRect(0, 0, w, h * 0.2); }), roughness: 0.5, emissive: 0x3a2610, emissiveIntensity: 0.4 });
   M.greenhouse = std({ color: 0xdfeee8, transparent: true, opacity: 0.35, roughness: 0.1, metalness: 0.3, side: THREE.DoubleSide, depthWrite: false });
   M.pavRoof = std({ color: 0x4f7896, roughness: 0.06, metalness: 0.8, envMapIntensity: 1.9, transparent: true, opacity: 0.9, side: THREE.DoubleSide, alphaMap: tex(256, 256, mullion(6, 4, '#c8c8c8'), 0, 0, false) });
-  M.glassEnd = std({ color: 0x9fb8c4, transparent: true, opacity: 0.55, roughness: 0.06, metalness: 0.6, envMapIntensity: 1.5, side: THREE.DoubleSide, depthWrite: false });
+  M.glassEnd = std({ color: 0xa4b8ac, transparent: true, opacity: 0.55, roughness: 0.06, metalness: 0.6, envMapIntensity: 1.5, side: THREE.DoubleSide, depthWrite: false });
   M.ribSteel = std({ color: 0xdfe3e2, roughness: 0.35, metalness: 0.6 });
   M.hallGlass = std({ map: tex(512, 256, (t, w, h) => { const g = t.createLinearGradient(0, 0, 0, h); g.addColorStop(0, '#d9b98a'); g.addColorStop(0.5, '#f4d7a2'); g.addColorStop(1, '#a87c4c'); t.fillStyle = g; t.fillRect(0, 0, w, h); t.fillStyle = 'rgba(60,40,24,0.35)'; for (let i = 0; i < 18; i++) t.fillRect(rnd() * w, h * 0.55 + rnd() * h * 0.3, 10 + rnd() * 20, h * 0.4); t.fillStyle = '#e8e6e0'; t.fillRect(0, h * 0.3, w, 5); }), roughness: 0.15, metalness: 0.3, emissive: 0x6a4420, emissiveIntensity: 0.55, envMapIntensity: 1.1 });
-  M.hallRoof = std({ map: tex(256, 256, (t, w, h) => { t.fillStyle = '#c8ad84'; t.fillRect(0, 0, w, h); for (let x = 0; x < w; x += 10) { t.fillStyle = 'rgba(120,128,130,0.35)'; t.fillRect(x, 0, 1.5, h); t.fillStyle = 'rgba(255,255,255,0.35)'; t.fillRect(x + 2, 0, 1, h); } }), roughness: 0.38, metalness: 0.55, envMapIntensity: 1.2, side: THREE.DoubleSide });
+  M.hallRoof = std({ map: tex(256, 256, (t, w, h) => { t.fillStyle = '#c8a878'; t.fillRect(0, 0, w, h); for (let x = 0; x < w; x += 10) { t.fillStyle = 'rgba(140,108,72,0.4)'; t.fillRect(x, 0, 1.5, h); t.fillStyle = 'rgba(255,235,190,0.3)'; t.fillRect(x + 2, 0, 1, h); } }), roughness: 0.35, metalness: 0.58, envMapIntensity: 1.3, side: THREE.DoubleSide });
   M.brickPave = std({ map: tex(128, 128, brickPaveTex, 2, 2), roughness: 0.9 });
   M.membrane = std({ color: 0xe6e4de, roughness: 0.85 });
-  M.hallClere = std({ map: tex(512, 512, (t, w, h) => { const g = t.createLinearGradient(0, 0, 0, h); g.addColorStop(0, '#cfd9dc'); g.addColorStop(0.45, '#e9d3a8'); g.addColorStop(1, '#c79a62'); t.fillStyle = g; t.fillRect(0, 0, w, h); t.fillStyle = 'rgba(255,240,210,0.35)'; for (let i = 0; i < 30; i++) t.fillRect(rnd() * w, h * 0.5 + rnd() * h * 0.45, 6 + rnd() * 14, 4); }), transparent: true, opacity: 0.45, roughness: 0.16, metalness: 0.4, envMapIntensity: 1.2, emissive: 0x6a4420, emissiveIntensity: 0.55, side: THREE.DoubleSide, depthWrite: false });
+  M.hallClere = std({ map: tex(512, 512, (t, w, h) => { const g = t.createLinearGradient(0, 0, 0, h); g.addColorStop(0, '#d8d4c4'); g.addColorStop(0.4, '#eed4a8'); g.addColorStop(1, '#c8985a'); t.fillStyle = g; t.fillRect(0, 0, w, h); t.fillStyle = 'rgba(255,240,210,0.4)'; for (let i = 0; i < 30; i++) t.fillRect(rnd() * w, h * 0.5 + rnd() * h * 0.45, 6 + rnd() * 14, 4); }), transparent: true, opacity: 0.52, roughness: 0.14, metalness: 0.42, envMapIntensity: 1.3, emissive: 0x7a4a20, emissiveIntensity: 0.65, side: THREE.DoubleSide, depthWrite: false });
   M.tent = std({ color: 0xf4f0e6, roughness: 0.85, side: THREE.DoubleSide });
   // Reference north-row facades (ref_04 left half): bronze-finned dark glass, deep red-brown brick with recessed bays,
   // light precast with punched windows, warm sand terracotta. Floor-to-floor 3.3 m -> 2 floors per 6.6 m tile.
@@ -527,6 +527,8 @@ function buildCommons(THREE, LY, SC, env) {
   const ribs = [], glu = []; segs.forEach(sg => { let k = 0; for (let x = sg[0] + 0.5; x <= sg[1] - 0.3; x += 3, k++) (k % 3 === 0 ? glu : ribs).push([x, sg[2]]); });
   inst(ribG, M.ribSteel, ribs, (o, q) => at(o, q[0], q[1], 0), G.vault);
   inst(ribG, M.glulam, glu, (o, q) => { at(o, q[0], q[1], 0); o.scale.set(3.2, 1, 1); }, G.vault);
+  const tieR = []; glu.forEach(g => { tieR.push([[g[0], g[1] - VH + 0.4, V.spring], [g[0], g[1] + VH - 0.4, V.spring]]); });
+  inst(new THREE.BoxGeometry(0.05, 0.05, 1), M.ribSteel, tieR, (o, q) => { const a = W(q[0][0], q[0][1], q[0][2]), b = W(q[1][0], q[1][1], q[1][2]); o.position.copy(a).add(b).multiplyScalar(0.5); o.lookAt(b); o.rotateY(Math.PI / 2); o.scale.x = a.distanceTo(b); }, G.vault, false);
   const purl = []; segs.forEach(sg => { for (let j = 1; j < 10; j++) { const s = -th + 2 * th * j / 10; purl.push([sg, sg[2] + (Rv + 0.05) * Math.sin(s), cyv + (Rv + 0.05) * Math.cos(s)]); } });
   inst(new THREE.BoxGeometry(1, 0.12, 0.12), M.ribSteel, purl, (o, q) => { at(o, (q[0][0] + q[0][1]) / 2, q[1], q[2]); o.scale.x = q[0][1] - q[0][0]; }, G.vault, false);
   const pend = []; segs.forEach(sg => { for (let x = sg[0] + 4; x < sg[1] - 3; x += 6) pend.push([x, sg[2]]); });
@@ -556,10 +558,13 @@ function buildCommons(THREE, LY, SC, env) {
     const br = []; IN.bridges.forEach(b => LV.forEach(z => br.push([b[0], b[1], z])));
     inst(new THREE.BoxGeometry(4.0, 0.55, 1), M.coping, br, (o, q) => { at(o, q[0], q[1], q[2] - 0.28); o.scale.z = 2 * (VH - BAL) + 0.2; }, G.core);
     inst(new THREE.BoxGeometry(0.06, 1.1, 1), M.glassRail, br.flatMap(q => [[q[0] - 2, q[1], q[2]], [q[0] + 2, q[1], q[2]]]), (o, q) => { at(o, q[0], q[1], q[2] + 0.55); o.scale.z = 2 * (VH - BAL); }, G.core, false);
+    // warm shopfront glow strips at each balcony level along the vault walls
+    LV.forEach(z => { const sl = []; segs.forEach(sg => { [-1, 1].forEach(sd => { const yw = sg[2] + sd * VH; sl.push([sg[0] + 1, sg[1] - 1, yw - sd * 0.15, z]); }); });
+      inst(new THREE.BoxGeometry(1, 0.14, 0.05), M.glow, sl, (o, q) => { at(o, (q[0] + q[1]) / 2, q[2], q[3] + 1.05); o.scale.x = q[1] - q[0]; }, G.core, false); });
     // suspended 'LLOYD COMMONS' sign boards at each end of the wings
     const sg2 = []; segs.forEach(sg => { sg2.push([sg[0] + 2.5, sg[2]]); sg2.push([sg[1] - 2.5, sg[2]]); });
     { const c = env.canvas(512, 96), t = c.getContext('2d'); t.fillStyle = '#efe9dc'; t.fillRect(0, 0, 512, 96); t.fillStyle = '#3a3530'; t.font = '600 46px Helvetica, Arial, sans-serif'; t.textAlign = 'center'; t.textBaseline = 'middle'; t.fillText('LLOYD COMMONS', 256, 50);
-      const sm = std({ map: new THREE.CanvasTexture(c), roughness: 0.8 }); inst(new THREE.BoxGeometry(0.3, 2.0, 10), sm, sg2, (o, q) => at(o, q[0], q[1], LV[1] + 2.4), G.core); }
+      const sm = std({ map: new THREE.CanvasTexture(c), roughness: 0.8, emissive: 0x4a3a28, emissiveIntensity: 0.4 }); inst(new THREE.BoxGeometry(0.3, 2.0, 10), sm, sg2, (o, q) => at(o, q[0], q[1], LV[1] + 2.4), G.core); }
   }
 
   // ------------------------------------------------------------ crossing hall (ref8): chamfered-rectangle glass pavilion, tall clerestory,
@@ -706,7 +711,7 @@ function buildCommons(THREE, LY, SC, env) {
         while (si < targets.length && acc + L >= targets[si]) { const t = (targets[si] - acc) / L, px = p[0] + (q[0] - p[0]) * t, py = p[1] + (q[1] - p[1]) * t;
           const nx = px - pv.x, ny = py - pv.y, nl = Math.hypot(nx, ny) || 1, mx = -nx / nl, my = -ny / nl;   // inward
           const c = env.canvas(512, 64), tc = c.getContext('2d'); tc.fillStyle = '#f4efe4'; tc.fillRect(0, 0, 512, 64); tc.fillStyle = '#4a3a2c'; tc.font = '600 34px Helvetica, Arial, sans-serif'; tc.textAlign = 'center'; tc.textBaseline = 'middle'; tc.fillText(SN[si], 256, 34);
-          const pl = new THREE.Mesh(new THREE.PlaneGeometry(11, 1.4), std({ map: new THREE.CanvasTexture(c), roughness: 0.7 }));
+          const pl = new THREE.Mesh(new THREE.PlaneGeometry(11, 1.4), std({ map: new THREE.CanvasTexture(c), roughness: 0.7, emissive: 0x3a2a1a, emissiveIntensity: 0.35 }));
           pl.position.copy(W(px + mx * 0.15, py + my * 0.15, 3.0)); pl.rotation.y = Math.atan2(mx, -my); G.core.add(pl); si++; }
         acc += L; } }
     // food court on L3 (ref9 k2/k4/k6)
