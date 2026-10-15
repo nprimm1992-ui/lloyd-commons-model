@@ -1,0 +1,11 @@
+---
+description: Lloyd Commons model conventions and invariants
+globs: ["gen_layout.py", "road_marks.py", "commons.js", "app.js", "build_viewer.py"]
+alwaysApply: true
+---
+- Read docs/CONTEXT.md before changing geometry. Axes: x=east, y=north; Three.js W(x,y,h)=Vector3(x,h,-y); building `h` is an ABSOLUTE top height.
+- Never move the mapped streets, the Commons spine (y=677), the 10th / Pyramid lanes, or the Pyramid Court parameters unless explicitly asked.
+- Keep the gen_layout.py asserts. If an assert fires, fix the geometry, never the assert. 18-floor cap; north depth ≤ 64.5 m.
+- Every change: run `python gen_layout.py` (expect "collision gate: PASS"), then `python build_viewer.py`. Report FAR / unit deltas from the STATS line.
+- New building stacks in the north row go through `_nstack()` and carry `north_ref=True`.
+- Facade textures are procedural canvas functions in commons.js; register new materials in FMAT.

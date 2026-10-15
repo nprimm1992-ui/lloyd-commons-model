@@ -1,0 +1,22 @@
+name: build
+on: [push, pull_request]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.12' }
+      - run: pip install shapely numpy pillow
+      - name: Regenerate layout (internal asserts + collision gate)
+        run: python gen_layout.py | tee gen.log && grep -q "collision gate: PASS" gen.log
+      - name: Committed layout.json matches the generator
+        run: git diff --exit-code layout.json || (echo "layout.json is stale - run make layout and commit" && exit 1)
+      - name: Independent invariant audit
+        run: python tools/check_invariants.py
+      - name: Syntax-check scene code
+        run: node --check commons.js && node --check app.js
+      - name: Bundle viewer
+        run: python build_viewer.py
+      - uses: actions/upload-artifact@v4
+        with: { name: viewer, path: dist/viewer.html }
