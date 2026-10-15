@@ -33,7 +33,7 @@
     const W = B.W, S = B.site;
 
     // sun: azimuth 215 deg (SW), altitude 30 deg, warm late-afternoon
-    const sun = new THREE.DirectionalLight(0xffcf98, 2.2); sun.castShadow = true;
+    const sun = new THREE.DirectionalLight(0xffcf98, 2.45); sun.castShadow = true;
     sun.shadow.mapSize.set(window.CLEAN ? 2048 : 4096, window.CLEAN ? 2048 : 4096); sun.shadow.bias = -0.0003; sun.shadow.normalBias = 0.4;
     const sc = sun.shadow.camera; sc.left = -380; sc.right = 380; sc.top = 300; sc.bottom = -300; sc.near = 10; sc.far = 3000;
     const az = 215 * Math.PI / 180, al = 30 * Math.PI / 180, R = 1400;
@@ -53,6 +53,23 @@
     function go(k) { const p = B.presets[k]; if (!p) return; camera.position.copy(W(p.pos[0], p.pos[1], p.pos[2])); controls.target.copy(W(p.tgt[0], p.tgt[1], p.tgt[2])); camera.near = p.pos[2] < 30 ? 0.3 : 1; camera.fov = p.fov || 42; camera.updateProjectionMatrix(); controls.update(); }
     window.GO = go;
     document.querySelectorAll('[data-view]').forEach(b => b.onclick = () => go(b.dataset.view));
+    const presentationBtn = document.getElementById('presentationBtn');
+    const hud = document.getElementById('hud');
+    let presentation = false;
+    if (presentationBtn) presentationBtn.onclick = () => {
+      presentation = !presentation;
+      if (presentation) {
+        document.body.appendChild(presentationBtn);
+        presentationBtn.className = 'presentation-exit';
+      } else {
+        hud.appendChild(presentationBtn);
+        presentationBtn.className = '';
+      }
+      ['hud', 'legend', 'compass', 'dbgbox'].forEach(id => { const el = document.getElementById(id); if (el) el.style.display = presentation ? 'none' : ''; });
+      presentationBtn.style.display = 'block';
+      presentationBtn.textContent = presentation ? 'Exit presentation' : 'Presentation mode';
+      document.body.classList.toggle('presentation', presentation);
+    };
     const q = window.VIEW || (location.hash || '').replace('#', ''); go(B.presets[q] ? q : 'hero');
 
     // layers
@@ -92,6 +109,8 @@
     window.addEventListener('resize', () => { camera.aspect = view.clientWidth / view.clientHeight; camera.updateProjectionMatrix(); renderer.setSize(view.clientWidth, view.clientHeight); });
 
     const note = document.getElementById('scaleNote');
+    if (window.VIEW === 'autumn') { scene.fog.color.set(0xd9c39d); scene.fog.near = 300; scene.fog.far = 1500; renderer.toneMappingExposure = 0.82; }
+    if (window.VIEW === 'masterplan') { scene.fog.near = 900; scene.fog.far = 5000; renderer.toneMappingExposure = 0.9; }
     (function tick() { if (window.CLEAN) { renderer.render(scene, camera); return; } requestAnimationFrame(tick); controls.update(); renderer.render(scene, camera); if (note) note.textContent = 'view width ≈ ' + f(Math.round(2 * camera.position.distanceTo(controls.target) * Math.tan(camera.fov * Math.PI / 360))) + ' m'; })();
     if (window.CLEAN || /clean/.test(location.search)) { ['hud', 'legend', 'compass'].forEach(id => { const e = document.getElementById(id); if (e) e.style.display = 'none'; }); }
   } catch (e) { info.style.display = 'block'; info.innerHTML = '<b>APP ERROR</b><br>' + e.message + '<br>' + ((e.stack || '').split('\n')[1] || ''); }

@@ -314,6 +314,26 @@ function buildCommons(THREE, LY, SC, env) {
       }
     }
   });
+  // Physical bronze fins give the reference towers readable depth at aerial scale.
+  { const fins = []; LY.buildings.forEach(b => {
+      if (b.mat !== 'refBronze') return;
+      const xs = b.fp.map(p => p[0]), ys = b.fp.map(p => p[1]);
+      const x0 = Math.min(...xs), x1 = Math.max(...xs), y0 = Math.min(...ys), y1 = Math.max(...ys);
+      const z0 = b.z0 || 0, h = Math.max(3, b.h - z0);
+      const step = 6.6;
+      for (let x = x0 + 2.2; x < x1 - 1; x += step) {
+        fins.push([x, y0 - 0.18, z0 + h / 2, h, 0]);
+        fins.push([x, y1 + 0.18, z0 + h / 2, h, 0]);
+      }
+      for (let y = y0 + 2.2; y < y1 - 1; y += step) {
+        fins.push([x0 - 0.18, y, z0 + h / 2, h, Math.PI / 2]);
+        fins.push([x1 + 0.18, y, z0 + h / 2, h, Math.PI / 2]);
+      }
+    });
+    inst(new THREE.BoxGeometry(0.28, 1, 0.42), M.copper, fins, (o, q) => {
+      at(o, q[0], q[1], q[2]); o.scale.y = q[3]; o.rotation.y = q[4];
+    }, G.buildings, true);
+  }
   // Reference-led fountain farm: exposed terrace crop rows, open trellises, facade planters.
   if(LY.fountain_detail){const d=LY.fountain_detail;
     const orientDetail=(o,q,z)=>{o.scale.x=boxAlong(o,q[0],q[1],z);};
@@ -914,6 +934,10 @@ function buildCommons(THREE, LY, SC, env) {
     max: { pos: [985, 296, 72], tgt: [826, 438, 0] },
     holladay: { pos: [846, 330, 96], tgt: [876, 615, 2] },
     wide: { pos: [430, 260, 480], tgt: [870, 620, 0] },
+    masterplan: { pos: [SITE.cx, SITE.cy - 1, 980], tgt: [SITE.cx, SITE.cy, 0], fov: 48 },
+    referencewest: { pos: [500, 455, 245], tgt: [870, 655, 8], fov: 46 },
+    referencenorth: { pos: [890, 870, 170], tgt: [875, 700, 12], fov: 44 },
+    autumn: { pos: [575, 430, 300], tgt: [880, 650, 8], fov: 46 },
   };
   function audit() {
     root.updateMatrixWorld(true);
